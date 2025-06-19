@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crop & Disease Prediction</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .overlay {
+            background-color: rgba(255, 255, 255, 0.92);
+            min-height: 100vh;
+            padding: 50px 20px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+
+        form label {
+            margin-top: 15px;
+            display: block;
+            font-weight: bold;
+            color: #444;
+        }
+
+        form select,
+        form input[type="number"],
+        form input[type="range"],
+        form input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .range-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        button, .btn {
+            padding: 12px;
+            width: 100%;
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        button:hover, .btn:hover {
+            background-color: #218838;
+        }
+
+        .result {
+            margin-top: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .top-button {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+    </style>
+    <script>
+        function updateValue(id, val) {
+            document.getElementById(id).innerText = val;
+        }
+    </script>
+</head>
+<body>
+    <div class="overlay">
+        <div class="container">
+            <div class="top-button">
+                <a href="/disease" class="btn">🔍 Detect Plant Disease</a>
+            </div>
+
+            <h1>🌾 Crop Yield Prediction</h1>
+            <form action="/" method="post">
+                <label>Region</label>
+                <select name="region" required>
+                    <option>West</option><option>South</option><option>North</option><option>East</option>
+                </select>
+
+                <label>Soil Type</label>
+                <select name="soil" required>
+                    <option>Sandy</option><option>Clay</option><option>Loam</option>
+                    <option>Silt</option><option>Peaty</option><option>Chalky</option>
+                </select>
+
+                <label>Crop</label>
+                <select name="crop" required>
+                    <option>Cotton</option><option>Rice</option><option>Barley</option>
+                    <option>Soybean</option><option>Wheat</option><option>Maize</option>
+                </select>
+
+                <label>Weather Condition</label>
+                <select name="weather" required>
+                    <option>Cloudy</option><option>Rainy</option><option>Sunny</option>
+                </select>
+
+                <label>Rainfall (mm): <span id="rainfallValue">500</span></label>
+                <input type="range" name="rainfall" min="1" max="1000" step="1" value="500" oninput="updateValue('rainfallValue', this.value)">
+
+                <label>Temperature (°C): <span id="temperatureValue">25</span></label>
+                <input type="range" name="temperature" min="0" max="50" step="1" value="25" oninput="updateValue('temperatureValue', this.value)">
+
+                <label><input type="checkbox" name="fertilizer"> Fertilizer Used</label>
+                <label><input type="checkbox" name="irrigation"> Irrigation Used</label>
+
+                <label>Days to Harvest</label>
+                <input type="number" name="days_to_harvest" required>
+
+                <button type="submit">Predict Yield</button>
+            </form>
+
+            {% if prediction_text %}
+            <div class="result">{{ prediction_text }}</div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

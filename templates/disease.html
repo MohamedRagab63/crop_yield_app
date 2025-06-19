@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Plant Disease Detection</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background: url('https://media.licdn.com/dms/image/v2/C5612AQGWNTJNQe3r2Q/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1593521802859?e=2147483647&v=beta&t=q2322d6WtR3ln9B4Z_9WML_1o2pTzcC2WNYYhU_2MwM') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background-color: #4CAF50;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            color: white;
+        }
+
+        .navbar a {
+            color: #fff;
+            margin-left: 25px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            width: 40%;
+            max-width: none; /* كبرنا العرض هنا */
+            margin: 40px auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .custom-file {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 80px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .custom-file input[type="file"] {
+            display: none;
+        }
+
+        .custom-file label, button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .custom-file label:hover,
+        button:hover {
+            background-color: #218838;
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            margin-top: 30px;
+            background-color: #007bff;
+            padding: 12px 24px;
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .btn-secondary:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 25px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        img {
+            margin-top: 15px;
+            max-width: 100%;
+            border-radius: 12px;
+        }
+
+        .footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 18px;
+            text-align: center;
+            font-size: 18px;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div><strong>🌿 AgriSmart</strong></div>
+        <div>
+            <a href="/home">Home</a>
+            <a href="/predict">Predict</a>
+            <a href="/disease">Disease</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>🌱 Plant Disease Detector</h1>
+        <form action="/disease" method="post" enctype="multipart/form-data">
+            <div class="custom-file">
+                <input type="file" name="plant_image" accept="image/*" id="plant_image" required>
+                <label for="plant_image"> Choose Photo</label>
+                <button type="submit"> Detect Disease</button>
+            </div>
+        </form>
+
+        {% if disease_result %}
+            <div class="result">Detected Disease: {{ disease_result }}</div>
+        {% endif %}
+
+        {% if image_filename %}
+            <img src="{{ image_filename }}" alt="Uploaded Plant Image">
+        {% endif %}
+
+        <div>
+            <a href="/home" class="btn-secondary">← Back to Home</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        &copy; 2025 AgriSmart. Built with  by Mohamed Ragab.
+    </div>
+
+</body>
+</html>

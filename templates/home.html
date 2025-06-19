@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AgriSmart - Home</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: url('https://plasticseurope.org/wp-content/uploads/2021/10/5.6._aaheader.png') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        .navbar {
+            background-color: #4CAF50; /* أخضر غامق */
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+        }
+
+        .navbar a {
+            color: #fff;
+            margin-left: 25px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            min-height: calc(100vh - 90px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 20px;
+            max-width: 700px;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 14px 28px;
+            margin: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+
+        .footer {
+            background-color: rgba(0, 0, 0, 0.8); /* أسود شفاف */
+            color: white;
+            padding: 18px;
+            text-align: center;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div><strong>🌿 AgriSmart</strong></div>
+        <div>
+            <a href="/home">Home</a>
+            <a href="/predict">Predict Yield</a>
+            <a href="/disease">Detect Disease</a>
+        </div>
+    </div>
+
+    <div class="overlay">
+        <h1>Welcome to AgriSmart</h1>
+        <p>Use smart AI tools to predict your crop's productivity and detect potential plant diseases for healthier farming.</p>
+        <a href="/predict" class="btn">🌾 Predict Crop Yield</a>
+        <a href="/disease" class="btn">🌱 Diagnose Plant Disease</a>
+    </div>
+
+    <div class="footer">
+        &copy; 2025 AgriSmart. Built with  by Mohamed Ragab.
+    </div>
+
+</body>
+</html>

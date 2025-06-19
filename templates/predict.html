@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crop Yield Prediction</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background: url('https://img.freepik.com/free-photo/sunny-meadow-landscape_1112-134.jpg?semt=ais_hybrid&w=740') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .navbar {
+            background-color: #4CAF50;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+        }
+
+        .navbar a {
+            color: #fff;
+            margin-left: 25px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .container {
+            background: #f7fff0;
+            padding: 30px;
+            max-width: 850px;
+            margin: 30px auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+        }
+
+        label {
+            font-weight: 600;
+            margin-top: 20px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .field-info {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        select, input[type="number"], input[type="range"] {
+            width: 100%;
+            padding: 12px 14px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease-in-out;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+
+        input[type=range] {
+            height: 8px;
+            -webkit-appearance: none;
+            margin: 10px 0;
+            background: linear-gradient(90deg, #28a745, #72e06a);
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+            box-shadow: 0 0 3px rgba(0,0,0,0.4);
+            transition: background 0.3s ease;
+        }
+
+        input[type=range]::-webkit-slider-thumb:hover {
+            background: #388e3c;
+        }
+
+        .range-label {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .btn-main {
+            padding: 14px;
+            margin-top: 20px;
+            background-color: #28a745;
+            color: white;
+            font-size: 17px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-main:hover {
+            background-color: #218838;
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            margin-top: 25px;
+            background-color: #007bff;
+            padding: 12px 24px;
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #0056b3;
+        }
+
+        .card {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            color: #2c3e50;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 18px;
+            text-align: center;
+            font-size: 18px;
+            margin-top: 40px;
+        }
+
+    </style>
+    <script>
+        function updateValue(id, val) {
+            document.getElementById(id).innerText = val;
+        }
+    </script>
+</head>
+<body>
+
+<div class="navbar">
+    <div><strong>🌿 AgriSmart</strong></div>
+    <div>
+        <a href="/home">Home</a>
+        <a href="/predict">Predict</a>
+        <a href="/disease">Disease</a>
+    </div>
+</div>
+
+<div class="container">
+    <h1>🌿 Crop Yield Predictor</h1>
+    <form action="/predict" method="post">
+
+        <label> Region</label>
+        <div class="field-info">Select the geographical area where your farm.</div>
+        <select name="region" required>
+            {% for r in ['West', 'South', 'North', 'East'] %}
+            <option value="{{ r }}" {% if request.form.get('region') == r %}selected{% endif %}>{{ r }}</option>
+            {% endfor %}
+        </select>
+
+        <label>🌾 Soil Type</label>
+        <div class="field-info">Choose the soil type.</div>
+        <select name="soil" required>
+            {% for s in ['Sandy','Clay','Loam','Silt','Peaty','Chalky'] %}
+            <option value="{{ s }}" {% if request.form.get('soil') == s %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+        </select>
+
+        <label>🌱 Crop</label>
+        <div class="field-info">Select the specific crop you are planning to grow or are currently growing.</div>
+        <select name="crop" required>
+            {% for c in ['Cotton','Rice','Barley','Soybean','Wheat','Maize'] %}
+            <option value="{{ c }}" {% if request.form.get('crop') == c %}selected{% endif %}>{{ c }}</option>
+            {% endfor %}
+        </select>
+
+        <label>🌦 Weather Condition</label>
+        <div class="field-info">Select the predominant weather condition during the growing season.</div>
+        <select name="weather" required>
+            {% for w in ['Cloudy','Rainy','Sunny'] %}
+            <option value="{{ w }}" {% if request.form.get('weather') == w %}selected{% endif %}>{{ w }}</option>
+            {% endfor %}
+        </select>
+
+        <div class="range-label">
+            <label>💧 Rainfall (mm)</label>
+            <span id="rainfallValue">{{ request.form.get('rainfall', 500) }}</span>
+        </div>
+        <div class="field-info">Set the average or expected rainfall in millimeters for the growing season.</div>
+        <input type="range" name="rainfall" min="1" max="1000" value="{{ request.form.get('rainfall', 500) }}" oninput="updateValue('rainfallValue', this.value)">
+
+        <div class="range-label">
+            <label>🌡 Temperature (°C)</label>
+            <span id="temperatureValue">{{ request.form.get('temperature', 25) }}</span>
+        </div>
+        <div class="field-info">Set the average temperature in degrees Celsius during the growing season.</div>
+        <input type="range" name="temperature" min="0" max="50" value="{{ request.form.get('temperature', 25) }}" oninput="updateValue('temperatureValue', this.value)">
+
+        <label> Fertilizer Used</label>
+        <div class="field-info">Indicate whether you are using fertilizers to supplement soil nutrients.</div>
+        <select name="fertilizer">
+            <option value="1.0" {% if request.form.get('fertilizer') == '1.0' %}selected{% endif %}>True</option>
+            <option value="0.0" {% if request.form.get('fertilizer') == '0.0' %}selected{% endif %}>False</option>
+        </select>
+
+        <label> Irrigation Used</label>
+        <div class="field-info"> Indicates whether irrigation was used during the crop growth period.</div>
+        <select name="irrigation">
+            <option value="1.0" {% if request.form.get('irrigation') == '1.0' %}selected{% endif %}>True</option>
+            <option value="0.0" {% if request.form.get('irrigation') == '0.0' %}selected{% endif %}>False</option>
+        </select>
+
+        <label>📅 Days to Harvest</label>
+        <div class="field-info">Enter the number of days from planting to harvest for your crop.</div>
+        <input type="number" name="days_to_harvest" value="{{ request.form.get('days_to_harvest', '') }}" required>
+
+        <label>💲 Market Price per Ton ($)</label>
+        <div class="field-info">Enter the current or expected market price per ton of your crop in dollars.</div>
+        <input type="number" name="price" value="{{ request.form.get('price', '') }}" required>
+
+        <button type="submit" class="btn-main">🌾 Predict Yield</button>
+    </form>
+
+    <!-- {% if best_crop %}
+    <div class="card" style="background-color: #f0f8ff;">
+        <strong> Best Crop:</strong><br>
+        {{ best_crop }}
+    </div>
+    {% endif %} -->
+
+    {% if prediction_text %}
+    <div class="card">
+        <strong>📊 Yield Prediction:</strong><br>
+        {{ prediction_text }}
+    </div>
+    {% endif %}
+
+    {% if expected_profit %}
+    <div class="card" style="background-color: #d4f7d4;">
+        <strong>💰 Expected Profit:</strong><br>
+        {{ expected_profit }}
+    </div>
+    {% endif %}
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="/home" class="btn-secondary">← Back to Home</a>
+    </div>
+
+</div>
+
+<div class="footer">
+    <p>🌿 AgriSmart - Your Smart Crop Prediction Platform</p>
+</div>
+
+</body>
+</html>
